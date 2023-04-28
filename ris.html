@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!--
+    Do not use @7 in production, use a complete version like x.x.x, see website for latest version:
+    https://www.algolia.com/doc/guides/building-search-ui/installation/react/#load-the-style
+    -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/instantsearch.css@7/themes/satellite.css"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
+        padding: 0.5rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      .Container {
+        display: grid;
+        align-items: flex-start;
+        grid-template-columns: minmax(min-content, 200px) 1fr;
+        gap: 0.5rem;
+      }
+
+      .Search {
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .Search-header {
+        display: grid;
+        align-items: flex-start;
+        grid-template-columns: 1fr auto auto auto;
+        gap: 0.5rem;
+      }
+
+      .CurrentRefinements {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5em;
+      }
+
+      .Hit-label {
+        flex: 1;
+        margin-right: 1rem;
+      }
+
+      .Hit-price {
+        color: lightslategray;
+      }
+
+      .Pagination {
+        display: flex;
+        justify-content: center;
+        padding: 1rem 0;
+        margin: 0 auto;
+      }
+
+      .ais-CurrentRefinements-label {
+        text-transform: capitalize;
+      }
+
+      .ais-PoweredBy {
+        margin-top: 0.5rem;
+      }
+
+      .ais-PoweredBy-logo {
+        height: 1rem;
+      }
+    </style>
+
+    <title>React InstantSearch - Algolia theme</title>
+  </head>
+
+  <body>
+    <div id="root">
+      <div class="Container">
+        <div>
+          <div class="ais-DynamicWidgets">
+            <div class="ais-Panel">
+              <div class="ais-Panel-header">Brands</div>
+              <div class="ais-Panel-body">
+                <div class="ais-RefinementList">
+                  <div class="ais-RefinementList-searchBox">
+                    <div class="ais-SearchBox">
+                      <form
+                        novalidate=""
+                        class="ais-SearchBox-form"
+                        action=""
+                        role="search"
+                      >
+                        <input
+                          type="search"
+                          placeholder="Search here…"
+                          autocomplete="off"
+                          autocorrect="off"
+                          autocapitalize="off"
+                          spellcheck="false"
+                          required=""
+                          maxlength="512"
+                          class="ais-SearchBox-input"
+                          value=""
+                        /><button
+                          type="submit"
+                          title="Submit your search query."
+                          class="ais-SearchBox-submit"
+                        >
+                          <svg
+                            class="ais-SearchBox-submitIcon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="10"
+                            height="10"
+                            viewBox="0 0 40 40"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
+                            ></path>
+                          </svg></button
+                        ><button
+                          type="reset"
+                          title="Clear the search query."
+                          class="ais-SearchBox-reset"
+                          hidden=""
+                        >
+                          <svg
+                            class="ais-SearchBox-resetIcon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            width="10"
+                            height="10"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M8.114 10L.944 2.83 0 1.885 1.886 0l.943.943L10 8.113l7.17-7.17.944-.943L20 1.886l-.943.943-7.17 7.17 7.17 7.17.943.944L18.114 20l-.943-.943-7.17-7.17-7.17 7.17-.944.943L0 18.114l.943-.943L8.113 10z"
+                            ></path>
+                          </svg>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                  <ul class="ais-RefinementList-list">
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText"
+                          >Insignia™</span
+                        >
+                        <span class="ais-RefinementList-count">746</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText"
+                          >Samsung</span
+                        >
+                        <span class="ais-RefinementList-count">633</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText"
+                          >Metra</span
+                        >
+                        <span class="ais-RefinementList-count">591</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText">HP</span>
+                        <span class="ais-RefinementList-count">530</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText"
+                          >Apple</span
+                        >
+                        <span class="ais-RefinementList-count">442</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText">GE</span>
+                        <span class="ais-RefinementList-count">394</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText">Sony</span>
+                        <span class="ais-RefinementList-count">350</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText"
+                          >Incipio</span
+                        >
+                        <span class="ais-RefinementList-count">320</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText"
+                          >KitchenAid</span
+                        >
+                        <span class="ais-RefinementList-count">318</span></label
+                      >
+                    </li>
+                    <li class="ais-RefinementList-item">
+                      <label class="ais-RefinementList-label"
+                        ><input
+                          class="ais-RefinementList-checkbox"
+                          type="checkbox"
+                        /><span class="ais-RefinementList-labelText"
+                          >Whirlpool</span
+                        >
+                        <span class="ais-RefinementList-count">298</span></label
+                      >
+                    </li>
+                  </ul>
+                  <button class="ais-RefinementList-showMore">Show more</button>
+                </div>
+              </div>
+            </div>
+            <div class="ais-Panel">
+              <div class="ais-Panel-header">Hierarchy</div>
+              <div class="ais-Panel-body">
+                <div class="ais-HierarchicalMenu">
+                  <ul class="ais-HierarchicalMenu-list">
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Appliances"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Appliances</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">4306</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Audio"
+                        ><span class="ais-HierarchicalMenu-label">Audio</span>
+                        <span class="ais-HierarchicalMenu-count">1570</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Cameras%20%26%20Camcorders"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Cameras &amp; Camcorders</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">1369</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Car%20Electronics%20%26%20GPS"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Car Electronics &amp; GPS</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">1208</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Cell%20Phones"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Cell Phones</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">3291</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Computers%20%26%20Tablets"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Computers &amp; Tablets</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">3563</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Health%2C%20Fitness%20%26%20Beauty"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Health, Fitness &amp; Beauty</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">923</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Household%20Essentials"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Household Essentials</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">148</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Housewares"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Housewares</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">255</span></a
+                      >
+                    </li>
+                    <li class="ais-HierarchicalMenu-item">
+                      <a
+                        class="ais-HierarchicalMenu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=Musical%20Instruments"
+                        ><span class="ais-HierarchicalMenu-label"
+                          >Musical Instruments</span
+                        >
+                        <span class="ais-HierarchicalMenu-count">312</span></a
+                      >
+                    </li>
+                  </ul>
+                  <button class="ais-HierarchicalMenu-showMore">
+                    Show more
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="ais-Panel">
+              <div class="ais-Panel-header">Categories</div>
+              <div class="ais-Panel-body">
+                <div class="ais-Menu">
+                  <ul class="ais-Menu-list">
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Appliances"
+                        ><span class="ais-Menu-label">Appliances</span>
+                        <span class="ais-Menu-count">4306</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Computers%20%26%20Tablets"
+                        ><span class="ais-Menu-label"
+                          >Computers &amp; Tablets</span
+                        >
+                        <span class="ais-Menu-count">3563</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Cell%20Phones"
+                        ><span class="ais-Menu-label">Cell Phones</span>
+                        <span class="ais-Menu-count">3291</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Cell%20Phone%20Accessories"
+                        ><span class="ais-Menu-label"
+                          >Cell Phone Accessories</span
+                        >
+                        <span class="ais-Menu-count">2836</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Audio"
+                        ><span class="ais-Menu-label">Audio</span>
+                        <span class="ais-Menu-count">1570</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Small%20Kitchen%20Appliances"
+                        ><span class="ais-Menu-label"
+                          >Small Kitchen Appliances</span
+                        >
+                        <span class="ais-Menu-count">1510</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Cameras%20%26%20Camcorders"
+                        ><span class="ais-Menu-label"
+                          >Cameras &amp; Camcorders</span
+                        >
+                        <span class="ais-Menu-count">1369</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Car%20Electronics%20%26%20GPS"
+                        ><span class="ais-Menu-label"
+                          >Car Electronics &amp; GPS</span
+                        >
+                        <span class="ais-Menu-count">1208</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=TV%20%26%20Home%20Theater"
+                        ><span class="ais-Menu-label"
+                          >TV &amp; Home Theater</span
+                        >
+                        <span class="ais-Menu-count">1201</span></a
+                      >
+                    </li>
+                    <li class="ais-Menu-item">
+                      <a
+                        class="ais-Menu-link"
+                        href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D=&amp;menu%5Bcategories%5D=Cell%20Phone%20Cases%20%26%20Clips"
+                        ><span class="ais-Menu-label"
+                          >Cell Phone Cases &amp; Clips</span
+                        >
+                        <span class="ais-Menu-count">1195</span></a
+                      >
+                    </li>
+                  </ul>
+                  <button class="ais-Menu-showMore">Show more</button>
+                </div>
+              </div>
+            </div>
+            <div class="ais-Panel">
+              <div class="ais-Panel-header">Price</div>
+              <div class="ais-Panel-body">
+                <div class="ais-RangeInput">
+                  <form class="ais-RangeInput-form">
+                    <input
+                      class="ais-RangeInput-input ais-RangeInput-input--min"
+                      type="number"
+                      min="1"
+                      max="5000"
+                      step="1"
+                      placeholder="1"
+                      value=""
+                    /><span class="ais-RangeInput-separator">to</span
+                    ><input
+                      class="ais-RangeInput-input ais-RangeInput-input--max"
+                      type="number"
+                      min="1"
+                      max="5000"
+                      step="1"
+                      placeholder="5000"
+                      value=""
+                    /><button class="ais-RangeInput-submit" type="submit">
+                      ok
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="ais-Panel">
+              <div class="ais-Panel-header">Free Shipping</div>
+              <div class="ais-Panel-body">
+                <div class="ais-ToggleRefinement">
+                  <label class="ais-ToggleRefinement-label"
+                    ><input
+                      class="ais-ToggleRefinement-checkbox"
+                      type="checkbox"
+                    /><span class="ais-ToggleRefinement-labelText"
+                      >Free shipping</span
+                    ></label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="Search">
+          <div class="ais-Breadcrumb ais-Breadcrumb--noRefinement">
+            <ul class="ais-Breadcrumb-list"></ul>
+          </div>
+          <div class="ais-SearchBox">
+            <form
+              novalidate=""
+              class="ais-SearchBox-form"
+              action=""
+              role="search"
+            >
+              <input
+                type="search"
+                placeholder="Search here…"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                required=""
+                maxlength="512"
+                class="ais-SearchBox-input"
+                value=""
+              /><button
+                type="submit"
+                title="Submit your search query."
+                class="ais-SearchBox-submit"
+              >
+                <svg
+                  class="ais-SearchBox-submitIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="10"
+                  height="10"
+                  viewBox="0 0 40 40"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
+                  ></path>
+                </svg></button
+              ><button
+                type="reset"
+                title="Clear the search query."
+                class="ais-SearchBox-reset"
+                hidden=""
+              >
+                <svg
+                  class="ais-SearchBox-resetIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  width="10"
+                  height="10"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M8.114 10L.944 2.83 0 1.885 1.886 0l.943.943L10 8.113l7.17-7.17.944-.943L20 1.886l-.943.943-7.17 7.17 7.17 7.17.943.944L18.114 20l-.943-.943-7.17-7.17-7.17 7.17-.944.943L0 18.114l.943-.943L8.113 10z"
+                  ></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+          <div class="Search-header">
+            <div class="ais-PoweredBy">
+              <span class="ais-PoweredBy-text">Search by</span>
+              <a
+                href="https://www.algolia.com/?utm_source=react-instantsearch&amp;utm_medium=website&amp;utm_content=i8qhmo.csb.app&amp;utm_campaign=poweredby"
+                target="_blank"
+                class="ais-PoweredBy-link"
+                aria-label="Algolia"
+                rel="noopener noreferrer"
+                ><svg
+                  viewBox="0 0 512 117"
+                  width="118"
+                  height="27"
+                  class="ais-PoweredBy-logo"
+                >
+                  <path
+                    fill="#003DFF"
+                    d="M249.5 64.2V1.4c0-.9-.7-1.5-1.6-1.4L236.2 2a1.4 1.4 0 0 0-1.2 1.3V67c0 3 0 21.6 22.4 22.3a1.4 1.4 0 0 0 1.5-1.4v-9.5c0-.7-.6-1.3-1.2-1.4-8.2-.9-8.2-11-8.2-12.7ZM443.5 24.4h-11.8c-.8 0-1.4.6-1.4 1.4v62c0 .8.6 1.4 1.4 1.4h11.8c.8 0 1.4-.6 1.4-1.4v-62c0-.8-.6-1.4-1.4-1.4ZM431.7 16.6h11.8c.8 0 1.4-.6 1.4-1.3v-14c0-.8-.7-1.4-1.6-1.3L431.5 2a1.4 1.4 0 0 0-1.2 1.3v12c0 .8.6 1.4 1.4 1.4Zm-20.5 47.6V1.4c0-.9-.7-1.5-1.5-1.4L397.9 2a1.4 1.4 0 0 0-1.2 1.3V67c0 3 0 21.6 22.4 22.3a1.4 1.4 0 0 0 1.5-1.4v-9.5c0-.7-.5-1.3-1.2-1.4-8.2-.9-8.2-11-8.2-12.7Zm-30.7-31c-2.6-2.8-5.8-5-9.6-6.5a31.7 31.7 0 0 0-12-2.3c-4.5 0-8.5.7-12.2 2.3A27.9 27.9 0 0 0 331 43.5a39.6 39.6 0 0 0 0 26.3c1.5 4 3.6 7.5 6.2 10.3 2.6 2.9 5.8 5 9.5 6.7a38 38 0 0 0 12.2 2.4c2.8 0 8.6-.9 12.3-2.4a27 27 0 0 0 9.5-6.7 35.1 35.1 0 0 0 8.3-23c0-4.9-.8-9.6-2.4-13.6-1.5-4-3.5-7.4-6.1-10.2ZM370 71.5a13.1 13.1 0 0 1-11.2 5.6 13 13 0 0 1-11.2-5.6c-2.7-3.6-4-7.9-4-14.2 0-6.3 1.3-11.5 4-15.1a13 13 0 0 1 11.1-5.5 13 13 0 0 1 11.3 5.5c2.6 3.6 4 8.8 4 15 0 6.4-1.3 10.6-4 14.3Zm-161.6-47H197a32 32 0 0 0-27 15 33.8 33.8 0 0 0 8.9 45.9 18.8 18.8 0 0 0 11.2 3.1H191.2l.6-.2h.2a21 21 0 0 0 16.5-14.6V87c0 .8.6 1.4 1.4 1.4h11.7c.8 0 1.4-.6 1.4-1.4V25.8c0-.8-.6-1.4-1.4-1.4h-13Zm0 48.3a17.8 17.8 0 0 1-10.4 3.5h-.2a12.5 12.5 0 0 1-.7 0A18.4 18.4 0 0 1 180.4 51c2.7-6.8 9-11.6 16.6-11.6h11.5v33.3Zm289-48.3H486a32 32 0 0 0-27 15 33.8 33.8 0 0 0 8.8 45.9 18.8 18.8 0 0 0 11.3 3.1h1.1l.6-.2h.2a21 21 0 0 0 16.5-14.6V87c0 .8.6 1.4 1.4 1.4h11.7c.8 0 1.4-.6 1.4-1.4V25.8c0-.8-.6-1.4-1.4-1.4h-13.1Zm0 48.3a17.8 17.8 0 0 1-10.5 3.5h-.9A18.4 18.4 0 0 1 469.4 51c2.6-6.8 9-11.6 16.6-11.6h11.5v33.3ZM306.3 24.4h-11.5a32 32 0 0 0-27 15 33.7 33.7 0 0 0-5.1 14.6 34.6 34.6 0 0 0 0 7.6c1 8.9 5.4 16.7 11.8 22a19.5 19.5 0 0 0 2.2 1.7 18.8 18.8 0 0 0 21.6-.6c3.8-2.7 6.7-6.7 8-11.1V87.9c0 5-1.3 8.9-4 11.5-2.7 2.6-7.3 3.9-13.6 3.9-2.6 0-6.7-.2-10.9-.6a1.4 1.4 0 0 0-1.4 1l-3 10a1.4 1.4 0 0 0 1.1 1.8c5 .7 10 1 12.8 1 11.4 0 19.8-2.4 25.3-7.4 5-4.6 7.8-11.4 8.2-20.7V25.8c0-.8-.6-1.4-1.3-1.4h-13.2Zm0 15s.2 32.4 0 33.4a17.5 17.5 0 0 1-10 3.4h-.2a13.6 13.6 0 0 1-1.7 0A18.7 18.7 0 0 1 278.3 51c2.6-6.8 9-11.6 16.5-11.6h11.5ZM58.2 0A58.3 58.3 0 1 0 86 109.5c.9-.5 1-1.6.3-2.2l-5.5-4.9a3.8 3.8 0 0 0-4-.6A47 47 0 0 1 11 57.5 47.3 47.3 0 0 1 58.2 11h47.3v84L78.7 71.2a2 2 0 0 0-3 .3 22 22 0 1 1 4.4-15.2 4 4 0 0 0 1.3 2.6l7 6.2c.8.7 2 .3 2.3-.8a33 33 0 0 0-30.4-39 33 33 0 0 0-35 32 33.3 33.3 0 0 0 32.2 33.9 32.8 32.8 0 0 0 20-6.3l35.1 31c1.5 1.4 3.9.3 3.9-1.7V2.2a2.2 2.2 0 0 0-2.2-2.2h-56Z"
+                  ></path></svg
+              ></a>
+            </div>
+            <div class="ais-HitsPerPage">
+              <select class="ais-HitsPerPage-select">
+                <option class="ais-HitsPerPage-option" value="20">
+                  20 hits per page
+                </option>
+                <option class="ais-HitsPerPage-option" value="40">
+                  40 hits per page
+                </option>
+              </select>
+            </div>
+            <div class="ais-SortBy">
+              <select class="ais-SortBy-select">
+                <option class="ais-SortBy-option" value="instant_search">
+                  Relevance
+                </option>
+                <option
+                  class="ais-SortBy-option"
+                  value="instant_search_price_asc"
+                >
+                  Price (asc)
+                </option>
+                <option
+                  class="ais-SortBy-option"
+                  value="instant_search_price_desc"
+                >
+                  Price (desc)
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="CurrentRefinements">
+            <div class="ais-ClearRefinements">
+              <button
+                class="ais-ClearRefinements-button ais-ClearRefinements-button--disabled"
+                disabled=""
+              >
+                Clear all filters
+              </button>
+            </div>
+            <div
+              class="ais-CurrentRefinements ais-CurrentRefinements--noRefinement"
+            >
+              <ul
+                class="ais-CurrentRefinements-list ais-CurrentRefinements-list--noRefinement"
+              ></ul>
+            </div>
+          </div>
+          <div class="ais-Hits">
+            <ul class="ais-Hits-list">
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Amazon - Fire TV Stick with Alexa Voice Remote -
+                    Black</span
+                  ></span
+                ><span class="Hit-price">$39.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Google - Chromecast - Black</span
+                  ></span
+                ><span class="Hit-price">$35</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Dell - Inspiron 15.6" Touch-Screen Laptop - Intel Core i5 -
+                    6GB Memory - 1TB Hard Drive - Black</span
+                  ></span
+                ><span class="Hit-price">$499.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Amazon - Echo Dot</span
+                  ></span
+                ><span class="Hit-price">$49.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Apple - MacBook Air® (Latest Model) - 13.3" Display - Intel
+                    Core i5 - 8GB Memory - 128GB Flash Storage - Silver</span
+                  ></span
+                ><span class="Hit-price">$999.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Sharp - 50" Class (49.5" Diag.) - LED - 1080p - Smart -
+                    HDTV Roku TV - Black</span
+                  ></span
+                ><span class="Hit-price">$429.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Google - Google Home - White/Slate fabric</span
+                  ></span
+                ><span class="Hit-price">$129</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Apple - EarPods™ with Remote and Mic - White</span
+                  ></span
+                ><span class="Hit-price">$29.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Philips - hue A19 Smart LED Light Bulb - White Only</span
+                  ></span
+                ><span class="Hit-price">$14.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Nintendo - amiibo Figure (The Legend of Zelda: Breath of
+                    the Wild Series Zelda)</span
+                  ></span
+                ><span class="Hit-price">$15.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Nintendo - amiibo Figure (The Legend of Zelda: Breath of
+                    the Wild Series Link (Archer))</span
+                  ></span
+                ><span class="Hit-price">$15.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Roku - Express Streaming Media Player - Black</span
+                  ></span
+                ><span class="Hit-price">$29.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Nintendo - amiibo Figure (The Legend of Zelda: Breath of
+                    the Wild Series Link (Rider))</span
+                  ></span
+                ><span class="Hit-price">$15.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Rocketfish™ - Tilting TV Wall Mount for Most 32"-70" TVs -
+                    Black</span
+                  ></span
+                ><span class="Hit-price">$99.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Nintendo - amiibo Figure (The Legend of Zelda: Breath of
+                    the Wild Series Guardian)</span
+                  ></span
+                ><span class="Hit-price">$19.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >LG - Ultra Slim 8x Max. DVD Write Speed External USB
+                    DVD±RW/CD-RW Drive - Black</span
+                  ></span
+                ><span class="Hit-price">$39.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Sony - BDP-S3700 - Streaming Wi-Fi Built-In Blu-ray Player
+                    - Black</span
+                  ></span
+                ><span class="Hit-price">$89.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Insignia™ - 55" Class - (54.6" Diag.) - LED - 1080p - HDTV
+                    - Black</span
+                  ></span
+                ><span class="Hit-price">$379.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >HP - 15.6" Laptop - AMD A6-Series - 4GB Memory - 500GB Hard
+                    Drive - Black</span
+                  ></span
+                ><span class="Hit-price">$259.99</span>
+              </li>
+              <li class="ais-Hits-item">
+                <span class="ais-Highlight Hit-label"
+                  ><span class="ais-Highlight-nonHighlighted"
+                    >Nintendo - amiibo Figure (The Legend of Zelda: Breath of
+                    the Wild Series Bokoblin)</span
+                  ></span
+                ><span class="Hit-price">$15.99</span>
+              </li>
+            </ul>
+          </div>
+          <div class="ais-Pagination Pagination">
+            <ul class="ais-Pagination-list">
+              <li
+                class="ais-Pagination-item ais-Pagination-item--disabled ais-Pagination-item--firstPage"
+              >
+                <span class="ais-Pagination-link">«</span>
+              </li>
+              <li
+                class="ais-Pagination-item ais-Pagination-item--disabled ais-Pagination-item--previousPage"
+              >
+                <span class="ais-Pagination-link">‹</span>
+              </li>
+              <li
+                class="ais-Pagination-item ais-Pagination-item--selected ais-Pagination-item--page"
+              >
+                <a
+                  class="ais-Pagination-link ais-Pagination-link--selected"
+                  aria-label="Page 1"
+                  href="/?refinementList%5Bbrand%5D=&amp;page=1&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D="
+                  >1</a
+                >
+              </li>
+              <li class="ais-Pagination-item ais-Pagination-item--page">
+                <a
+                  class="ais-Pagination-link"
+                  aria-label="Page 2"
+                  href="/?refinementList%5Bbrand%5D=&amp;page=2&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D="
+                  >2</a
+                >
+              </li>
+              <li class="ais-Pagination-item ais-Pagination-item--page">
+                <a
+                  class="ais-Pagination-link"
+                  aria-label="Page 3"
+                  href="/?refinementList%5Bbrand%5D=&amp;page=3&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D="
+                  >3</a
+                >
+              </li>
+              <li class="ais-Pagination-item ais-Pagination-item--page">
+                <a
+                  class="ais-Pagination-link"
+                  aria-label="Page 4"
+                  href="/?refinementList%5Bbrand%5D=&amp;page=4&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D="
+                  >4</a
+                >
+              </li>
+              <li class="ais-Pagination-item ais-Pagination-item--page">
+                <a
+                  class="ais-Pagination-link"
+                  aria-label="Page 5"
+                  href="/?refinementList%5Bbrand%5D=&amp;page=5&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D="
+                  >5</a
+                >
+              </li>
+              <li class="ais-Pagination-item ais-Pagination-item--page">
+                <a
+                  class="ais-Pagination-link"
+                  aria-label="Page 6"
+                  href="/?refinementList%5Bbrand%5D=&amp;page=6&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D="
+                  >6</a
+                >
+              </li>
+              <li class="ais-Pagination-item ais-Pagination-item--page">
+                <a
+                  class="ais-Pagination-link"
+                  aria-label="Page 7"
+                  href="/?refinementList%5Bbrand%5D=&amp;page=7&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D="
+                  >7</a
+                >
+              </li>
+              <li class="ais-Pagination-item ais-Pagination-item--nextPage">
+                <a
+                  class="ais-Pagination-link"
+                  aria-label="Next page"
+                  href="/?refinementList%5Bbrand%5D=&amp;page=2&amp;hierarchicalMenu%5BhierarchicalCategories.lvl0%5D="
+                  >›</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
